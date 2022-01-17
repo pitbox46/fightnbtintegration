@@ -17,7 +17,7 @@ public class PacketHandler {
     private static int ID = 0;
 
     public static void init() {
-        registerPacket(SSyncConfig.class, SSyncConfig.decoder());
+        registerPacket(SSyncConfig.class, pb -> new SSyncConfig().readPacketData(pb));
     }
 
     public static <T extends IPacket> void registerPacket(Class<T> packetClass, Function<PacketBuffer,T> decoder) {

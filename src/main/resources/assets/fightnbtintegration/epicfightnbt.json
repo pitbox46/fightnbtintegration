@@ -1,0 +1,110 @@
+{
+  "double/head_left": {
+    "double/basic_hammer_left": {
+      "armor_ignorance": 20,
+      "hit_at_once": 0,
+      "impact": 4,
+      "weapon_type": "axe"
+    },
+    "double/basic_axe_left": {
+      "armor_ignorance": 0,
+      "hit_at_once": 1,
+      "impact": 2,
+      "weapon_type": "axe"
+    },
+    "double/basic_pickaxe_left": {
+      "armor_ignorance": 30,
+      "hit_at_once": 0,
+      "impact": 3,
+      "weapon_type": "pickaxe"
+    },
+    "double/hoe_left": {
+      "armor_ignorance": 0,
+      "hit_at_once": 1,
+      "impact": 1,
+      "weapon_type": "hoe"
+    },
+    "double/claw_left": {
+      "armor_ignorance": 20,
+      "hit_at_once": 0,
+      "impact": 4,
+      "weapon_type": "axe"
+    },
+    "double/adze_left": {
+      "armor_ignorance": 0,
+      "hit_at_once": 1,
+      "impact": 2,
+      "weapon_type": "axe"
+    },
+    "double/sickle_left": {
+      "armor_ignorance": 0,
+      "hit_at_once": 1,
+      "impact": 2,
+      "weapon_type": "axe"
+    }
+  },
+  "sword/blade": {
+    "sword/basic_blade": {
+      "armor_ignorance": 0,
+      "hit_at_once": 2,
+      "impact": 2,
+      "weapon_type": "sword"
+    },
+    "sword/heavy_blade": {
+      "armor_ignorance": 0,
+      "hit_at_once": 3,
+      "impact": 1,
+      "weapon_type": "greatsword"
+    },
+    "sword/machete": {
+      "armor_ignorance": 0,
+      "hit_at_once": 1,
+      "impact": 3,
+      "weapon_type": "tachi"
+    },
+    "sword/short_blade": {
+      "armor_ignorance": 50,
+      "hit_at_once": 0,
+      "impact": 0,
+      "weapon_type": "dagger"
+    }
+  },
+  "single/head": {
+    "single/spearhead": {
+      "armor_ignorance": 30,
+      "hit_at_once": 0,
+      "impact": 2,
+      "weapon_type": "spear"
+    },
+    "single/basic_shovel": {
+      "armor_ignorance": 0,
+      "hit_at_once": 0,
+      "impact": 4,
+      "weapon_type": "shovel"
+    }
+  },
+  "crossbow/stock": {
+    "crossbow/basic_stock": {
+      "armor_ignorance": 20,
+      "hit_at_once": 0,
+      "impact": 3,
+      "weapon_type": "crossbow"
+    }
+  },
+  "bow/string": {
+    "bow/basic_string": {
+      "armor_ignorance": 10,
+      "hit_at_once": 0,
+      "impact": 3,
+      "weapon_type": "bow"
+    }
+  },
+  "shield/plate": {
+    "shield/tower": {
+      "armor_ignorance": 0,
+      "hit_at_once": 0,
+      "impact": 0,
+      "weapon_type": "shield"
+    }
+  }
+}

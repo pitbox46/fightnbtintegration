@@ -4,7 +4,7 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkEvent;
 
 public interface IPacket {
-    void readPacketData(PacketBuffer buf);
+    IPacket readPacketData(PacketBuffer buf);
 
     void writePacketData(PacketBuffer buf);
 

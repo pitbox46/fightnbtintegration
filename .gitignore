@@ -116,3 +116,10 @@ run/
 
 # Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
 !gradle-wrapper.jar
+bin/main/epicfightnbt.mixins.json
+bin/main/pack.mcmeta
+.settings/org.eclipse.buildship.core.prefs
+.settings/org.eclipse.jdt.core.prefs
+.project
+.classpath
+bin/main/META-INF/mods.toml
