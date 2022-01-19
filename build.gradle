@@ -14,7 +14,7 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'org.spongepowered.mixin'
 
 group = 'github.pitbox46'
-version = '1.16.5-1.4.0'
+version = '1.16.5-1.3.0'
 archivesBaseName = 'fightnbtintegration'
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(8) // Mojang ships Java 8 to end users, so your mod should target Java 8.
