@@ -137,7 +137,7 @@ dependencies {
     implementation fg.deobf("curse.maven:mgui-351914:3456505")
     runtimeOnly fg.deobf("curse.maven:tetra-289712:3519471")
 
-    annotationProcessor 'org.spongepowered:mixin:0.8:processor'
+    annotationProcessor 'org.spongepowered:mixin:0.8.3:processor'
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..

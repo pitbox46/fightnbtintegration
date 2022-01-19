@@ -1,8 +1,10 @@
 package github.pitbox46.fightnbtintegration.network;
 
 import github.pitbox46.fightnbtintegration.Config;
+import github.pitbox46.fightnbtintegration.mixins.RenderEngineMixin;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkEvent;
+import yesman.epicfight.client.ClientEngine;
 
 public class SSyncConfig implements IPacket {
     public String json;
