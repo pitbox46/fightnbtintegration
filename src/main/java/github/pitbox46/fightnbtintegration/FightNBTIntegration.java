@@ -3,7 +3,6 @@ package github.pitbox46.fightnbtintegration;
 import github.pitbox46.fightnbtintegration.network.ClientProxy;
 import github.pitbox46.fightnbtintegration.network.CommonProxy;
 import github.pitbox46.fightnbtintegration.network.PacketHandler;
-import github.pitbox46.fightnbtintegration.network.SSyncConfig;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.world.storage.FolderName;
 import net.minecraftforge.common.MinecraftForge;
@@ -28,7 +27,7 @@ public class FightNBTIntegration {
 
     @SubscribeEvent
     public void onServerStarting(FMLServerStartingEvent event) {
-        github.pitbox46.fightnbtintegration.Config.init(event.getServer().func_240776_a_(new FolderName("epicfightnbt")));
+        Config.init(event.getServer().func_240776_a_(new FolderName("serverconfig")));
     }
 
     @SubscribeEvent
