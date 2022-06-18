@@ -1,7 +1,7 @@
 package github.pitbox46.fightnbtintegration.network;
 
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraftforge.fmllegacy.network.NetworkEvent;
+import net.minecraftforge.network.NetworkEvent;
 
 public interface IPacket {
     IPacket readPacketData(FriendlyByteBuf buf);

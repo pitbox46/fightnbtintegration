@@ -2,7 +2,7 @@ package github.pitbox46.fightnbtintegration.network;
 
 import github.pitbox46.fightnbtintegration.Config;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraftforge.fmllegacy.network.NetworkEvent;
+import net.minecraftforge.network.NetworkEvent;
 
 public class SSyncConfig implements IPacket {
     public String json;
