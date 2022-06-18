@@ -1,10 +1,8 @@
 package github.pitbox46.fightnbtintegration.network;
 
 import github.pitbox46.fightnbtintegration.Config;
-import github.pitbox46.fightnbtintegration.mixins.RenderEngineMixin;
-import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.fml.network.NetworkEvent;
-import yesman.epicfight.client.ClientEngine;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraftforge.fmllegacy.network.NetworkEvent;
 
 public class SSyncConfig implements IPacket {
     public String json;
@@ -15,14 +13,14 @@ public class SSyncConfig implements IPacket {
     public SSyncConfig() {}
 
     @Override
-    public SSyncConfig readPacketData(PacketBuffer buf) {
-        json = buf.readString();
+    public SSyncConfig readPacketData(FriendlyByteBuf buf) {
+        json = buf.readUtf();
         return this;
     }
 
     @Override
-    public void writePacketData(PacketBuffer buf) {
-        buf.writeString(json, json.length());
+    public void writePacketData(FriendlyByteBuf buf) {
+        buf.writeUtf(json, json.length());
     }
 
     @Override

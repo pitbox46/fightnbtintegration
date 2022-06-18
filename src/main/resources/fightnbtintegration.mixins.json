@@ -2,10 +2,11 @@
   "required": true,
   "minVersion": "0.8",
   "package": "github.pitbox46.fightnbtintegration.mixins",
-  "compatibilityLevel": "JAVA_8",
+  "compatibilityLevel": "JAVA_16",
   "refmap": "fightnbtintegration.refmap.json",
   "mixins": [
-    "ModCapabilitiesMixin"
+    "ModCapabilitiesMixin",
+    "ProviderItemMixin"
   ],
   "client": [
     "RenderEngineMixin"

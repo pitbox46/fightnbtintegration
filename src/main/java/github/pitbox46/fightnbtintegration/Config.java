@@ -2,32 +2,33 @@ package github.pitbox46.fightnbtintegration;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import github.pitbox46.fightnbtintegration.mixins.ProviderItemMixin;
 import github.pitbox46.fightnbtintegration.network.SSyncConfig;
-import net.minecraft.item.*;
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.fml.loading.FMLConfig;
 import net.minecraftforge.fml.loading.FMLPaths;
 import net.minecraftforge.fml.loading.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import yesman.epicfight.capabilities.item.CapabilityItem;
-import yesman.epicfight.config.CapabilityConfig;
+import yesman.epicfight.world.capabilities.item.CapabilityItem;
 
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
-import java.util.function.Function;
+
 
 public class Config {
     private static final Logger LOGGER = LogManager.getLogger();
 
-    public static final Map<String, Function<ItemStack, CapabilityItem>> DICTIONARY = new HashMap<>();
+    public static final Map<String, CapabilityItem> DICTIONARY = new HashMap<>();
     static {
-        for(CapabilityConfig.WeaponType type : CapabilityConfig.WeaponType.values()) {
-            DICTIONARY.put(type.name().toLowerCase(), (stack) -> type.get(stack.getItem()));
+        for(CapabilityItem itemCap : ProviderItemMixin.getCAPABILITIES().values()) {
+            DICTIONARY.put(itemCap.getWeaponCategory().name().toLowerCase(Locale.ROOT), itemCap);
         }
     }
 
@@ -78,7 +79,7 @@ public class Config {
         }
     }
 
-    class WeaponSchema {
+    static class WeaponSchema {
 
         public double armor_ignorance = 0;
         public int hit_at_once = 0;
@@ -88,15 +89,15 @@ public class Config {
 
     public static CapabilityItem findWeaponByNBT(ItemStack stack) {
         if(stack.hasTag()) {
-            CompoundNBT tag = stack.getTag();
-            for (String key : tag.keySet()) {
+            CompoundTag tag = stack.getTag();
+            for (String key : tag.getAllKeys()) {
                 for (Map.Entry<String, Map<String, WeaponSchema>> condition : JSON_MAP.entrySet()) {
                     if (condition.getKey().equals(key)) {
                         String value = tag.getString(key);
                         for (Map.Entry<String, WeaponSchema> weaponEntry : condition.getValue().entrySet()) {
                             if (weaponEntry.getKey().equals(value)) {
                                 WeaponSchema weapon = weaponEntry.getValue();
-                                CapabilityItem toReturn = DICTIONARY.get(weapon.weapon_type).apply(stack);
+                                CapabilityItem toReturn = DICTIONARY.get(weapon.weapon_type);
                                 toReturn.setConfigFileAttribute(
                                         weapon.armor_ignorance, weapon.impact, weapon.hit_at_once,
                                         weapon.armor_ignorance, weapon.impact, weapon.hit_at_once);

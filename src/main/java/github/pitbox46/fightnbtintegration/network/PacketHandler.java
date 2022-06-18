@@ -1,9 +1,9 @@
 package github.pitbox46.fightnbtintegration.network;
 
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.network.NetworkRegistry;
-import net.minecraftforge.fml.network.simple.SimpleChannel;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.fmllegacy.network.NetworkRegistry;
+import net.minecraftforge.fmllegacy.network.simple.SimpleChannel;
 
 import java.util.function.Function;
 
@@ -20,7 +20,7 @@ public class PacketHandler {
         registerPacket(SSyncConfig.class, pb -> new SSyncConfig().readPacketData(pb));
     }
 
-    public static <T extends IPacket> void registerPacket(Class<T> packetClass, Function<PacketBuffer,T> decoder) {
+    public static <T extends IPacket> void registerPacket(Class<T> packetClass, Function<FriendlyByteBuf,T> decoder) {
         CHANNEL.registerMessage(
                 ID++,
                 packetClass,
