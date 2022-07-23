@@ -80,7 +80,6 @@ public class Config {
     }
 
     static class WeaponSchema {
-
         public double armor_ignorance = 0;
         public int hit_at_once = 0;
         public double impact = 0;
@@ -97,7 +96,7 @@ public class Config {
                         for (Map.Entry<String, WeaponSchema> weaponEntry : condition.getValue().entrySet()) {
                             if (weaponEntry.getKey().equals(value)) {
                                 WeaponSchema weapon = weaponEntry.getValue();
-                                CapabilityItem toReturn = DICTIONARY.get(weapon.weapon_type);
+                                CapabilityItem toReturn = DICTIONARY.getOrDefault(weapon.weapon_type, CapabilityItem.EMPTY);
                                 toReturn.setConfigFileAttribute(
                                         weapon.armor_ignorance, weapon.impact, weapon.hit_at_once,
                                         weapon.armor_ignorance, weapon.impact, weapon.hit_at_once);

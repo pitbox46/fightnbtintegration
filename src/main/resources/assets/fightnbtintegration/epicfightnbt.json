@@ -88,7 +88,7 @@
       "armor_ignorance": 20,
       "hit_at_once": 0,
       "impact": 3,
-      "weapon_type": "crossbow"
+      "weapon_type": "ranged"
     }
   },
   "bow/string": {
@@ -96,7 +96,7 @@
       "armor_ignorance": 10,
       "hit_at_once": 0,
       "impact": 3,
-      "weapon_type": "bow"
+      "weapon_type": "ranged"
     }
   },
   "shield/plate": {
