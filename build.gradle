@@ -15,7 +15,7 @@ apply plugin: 'org.spongepowered.mixin'
 apply from: 'https://raw.githubusercontent.com/SizableShrimp/Forge-Class-Remapper/main/classremapper.gradle'
 
 group = 'github.pitbox46'
-version = '1.18.2-1.0.0'
+version = '1.18.2-1.0.1'
 archivesBaseName = 'fightnbtintegration'
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(17) // Mojang ships Java 8 to end users, so your mod should target Java 8.
