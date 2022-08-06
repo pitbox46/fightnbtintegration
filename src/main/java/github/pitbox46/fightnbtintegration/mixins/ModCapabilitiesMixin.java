@@ -14,9 +14,10 @@ public class ModCapabilitiesMixin {
     @Inject(at = @At(value = "HEAD"), method = "getItemStackCapability", cancellable = true)
     private static void onGetItemStackCapability(ItemStack stack, CallbackInfoReturnable<CapabilityItem> cir) {
         if(stack.isEmpty()) cir.setReturnValue(CapabilityItem.EMPTY);
-        CapabilityItem cap = stack.getCapability(EpicFightCapabilities.CAPABILITY_ITEM, null).orElse(CapabilityItem.EMPTY);
-        if(cap == CapabilityItem.EMPTY) {
-            cir.setReturnValue(Config.findWeaponByNBT(stack));
+        CapabilityItem cap = Config.findWeaponByNBT(stack);
+        if(cap.isEmpty()) {
+            cap = stack.getCapability(EpicFightCapabilities.CAPABILITY_ITEM, null).orElse(CapabilityItem.EMPTY);
         }
+        cir.setReturnValue(cap);
     }
 }
