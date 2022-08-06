@@ -91,14 +91,6 @@
       "weapon_type": "ranged"
     }
   },
-  "bow/string": {
-    "bow/basic_string": {
-      "armor_ignorance": 10,
-      "hit_at_once": 0,
-      "impact": 3,
-      "weapon_type": "ranged"
-    }
-  },
   "shield/plate": {
     "shield/tower": {
       "armor_ignorance": 0,
