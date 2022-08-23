@@ -56,9 +56,10 @@ mandatory = true
 versionRange = "[1.18, 1.19)"
 ordering = "NONE"
 side = "BOTH"
+
 [[dependencies.fightnbtintegration]]
 modId = "epicfight"
 mandatory = true
-versionRange = "[18.2.6, 19)"
+versionRange = "[18.3.2, 19)"
 ordering = "NONE"
 side = "BOTH"

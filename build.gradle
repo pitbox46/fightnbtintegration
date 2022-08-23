@@ -15,7 +15,7 @@ apply plugin: 'org.spongepowered.mixin'
 apply from: 'https://raw.githubusercontent.com/SizableShrimp/Forge-Class-Remapper/main/classremapper.gradle'
 
 group = 'github.pitbox46'
-version = '1.18.2-1.0.2'
+version = '1.18.2-1.0.3'
 archivesBaseName = 'fightnbtintegration'
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(17) // Mojang ships Java 8 to end users, so your mod should target Java 8.
@@ -132,9 +132,9 @@ dependencies {
     // Specify the version of Minecraft to use, If this is any group other then 'net.minecraft' it is assumed
     // that the dep is a ForgeGradle 'patcher' dependency. And it's patches will be applied.
     // The userdev artifact is a special name and will get all sorts of transformations applied to it.
-    minecraft 'net.minecraftforge:forge:1.18.2-40.1.51'
+    minecraft 'net.minecraftforge:forge:1.18.2-40.1.73'
 
-    implementation fg.deobf("curse.maven:epicfightmod-405076:3888643")
+    implementation fg.deobf("curse.maven:epicfightmod-405076:3944852")
 
     runtimeOnly fg.deobf("curse.maven:tetra-289712:3813582")
     runtimeOnly fg.deobf("curse.maven:mutil-351914:3788376")

@@ -28,12 +28,12 @@ public class Config {
     public static final Map<String, CapabilityItem> DICTIONARY = new HashMap<>();
     static {
         for(CapabilityItem itemCap : ProviderItemMixin.getCAPABILITIES().values()) {
-            DICTIONARY.put(itemCap.getWeaponCategory().name().toLowerCase(Locale.ROOT), itemCap);
+            DICTIONARY.put(((CapabilityItem.WeaponCategories) itemCap.getWeaponCategory()).name().toLowerCase(Locale.ROOT), itemCap);
         }
     }
 
     public static File jsonFile;
-    public static Map<String, Map<String, WeaponSchema>> JSON_MAP;
+    public static Map<String, Map<String, WeaponSchema>> JSON_MAP = new HashMap<>();
 
     public static void init(Path folder) {
         jsonFile = new File(FileUtils.getOrCreateDirectory(folder, "serverconfig").toFile(), "epicfightnbt.json");
