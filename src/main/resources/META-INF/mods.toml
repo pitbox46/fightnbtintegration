@@ -61,5 +61,5 @@ side = "BOTH"
 modId = "epicfight"
 mandatory = true
 versionRange = "[18.3.2, 19)"
-ordering = "NONE"
+ordering = "BEFORE"
 side = "BOTH"
