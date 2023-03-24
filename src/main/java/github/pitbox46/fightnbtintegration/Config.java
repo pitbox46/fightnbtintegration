@@ -28,7 +28,7 @@ public class Config {
     public static final Map<String, CapabilityItem> DICTIONARY = new HashMap<>();
     static {
         for(CapabilityItem itemCap : ProviderItemMixin.getCAPABILITIES().values()) {
-            DICTIONARY.put(((CapabilityItem.WeaponCategories) itemCap.getWeaponCategory()).name().toLowerCase(Locale.ROOT), itemCap);
+            DICTIONARY.put(itemCap.getWeaponCategory().toString().toLowerCase(Locale.ROOT), itemCap);
         }
     }
 
