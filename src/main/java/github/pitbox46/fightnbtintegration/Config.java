@@ -25,13 +25,6 @@ import java.util.Objects;
 public class Config {
     private static final Logger LOGGER = LogManager.getLogger();
 
-//    public static final Map<String, CapabilityItem> DICTIONARY = new HashMap<>();
-//    static {
-//        for(CapabilityItem itemCap : WeaponCapabilityPresetsMixin.getPRESETS()) {
-//            DICTIONARY.put(((CapabilityItem.WeaponCategories) itemCap.getWeaponCategory()).name().toLowerCase(Locale.ROOT), itemCap);
-//        }
-//    }
-
     public static File jsonFile;
     public static Map<String, Map<String, WeaponSchema>> JSON_MAP = new HashMap<>();
 
