@@ -10,10 +10,24 @@ import yesman.epicfight.world.capabilities.EpicFightCapabilities;
 import yesman.epicfight.world.capabilities.item.CapabilityItem;
 
 @Mixin(value = EpicFightCapabilities.class, remap = false)
-public class ModCapabilitiesMixin {
+public class EpicFightCapabilitiesMixin {
     @Inject(at = @At(value = "HEAD"), method = "getItemStackCapability", cancellable = true)
     private static void onGetItemStackCapability(ItemStack stack, CallbackInfoReturnable<CapabilityItem> cir) {
-        if(stack.isEmpty()) cir.setReturnValue(CapabilityItem.EMPTY);
+        if(stack.isEmpty()) {
+            cir.setReturnValue(CapabilityItem.EMPTY);
+        }
+        CapabilityItem cap = Config.findWeaponByNBT(stack);
+        if(cap == CapabilityItem.EMPTY) {
+            cap = stack.getCapability(EpicFightCapabilities.CAPABILITY_ITEM, null).orElse(CapabilityItem.EMPTY);
+        }
+        cir.setReturnValue(cap);
+    }
+
+    @Inject(at = @At(value = "HEAD"), method = "getItemStackCapabilityOr", cancellable = true)
+    private static void onGetItemStackCapabilityOr(ItemStack stack, CapabilityItem defaultCap, CallbackInfoReturnable<CapabilityItem> cir) {
+        if(stack.isEmpty()) {
+            cir.setReturnValue(defaultCap);
+        }
         CapabilityItem cap = Config.findWeaponByNBT(stack);
         if(cap == CapabilityItem.EMPTY) {
             cap = stack.getCapability(EpicFightCapabilities.CAPABILITY_ITEM, null).orElse(CapabilityItem.EMPTY);

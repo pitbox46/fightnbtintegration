@@ -88,7 +88,7 @@
       "armor_ignorance": 20,
       "hit_at_once": 0,
       "impact": 3,
-      "weapon_type": "ranged"
+      "weapon_type": "crossbow"
     }
   },
   "shield/plate": {

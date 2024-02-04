@@ -4,15 +4,16 @@ import net.minecraft.world.item.Item;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 import yesman.epicfight.world.capabilities.item.CapabilityItem;
-import yesman.epicfight.world.capabilities.provider.ProviderItem;
+import yesman.epicfight.world.capabilities.item.WeaponCapabilityPresets;
 
 import java.util.Map;
 import java.util.function.Function;
 
-@Mixin(value = ProviderItem.class, remap = false)
-public interface ProviderItemMixin {
+@Mixin(value = WeaponCapabilityPresets.class, remap = false)
+public interface WeaponCapabilityPresetsMixin {
+
     @Accessor
-    static Map<Item, CapabilityItem> getCAPABILITIES() {
+    public static Map<String, Function<Item, CapabilityItem.Builder>> getPRESETS() {
         throw new RuntimeException();
     }
 }

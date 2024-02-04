@@ -5,10 +5,11 @@
   "compatibilityLevel": "JAVA_17",
   "refmap": "fightnbtintegration.refmap.json",
   "mixins": [
-    "ModCapabilitiesMixin",
-    "ProviderItemMixin"
+    "EpicFightCapabilitiesMixin",
+    "WeaponCapabilityPresetsMixin"
   ],
   "client": [
+    "AbstractClientPlayerPatchMixin",
     "RenderEngineMixin"
   ],
   "injectors": {

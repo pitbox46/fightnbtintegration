@@ -2,7 +2,7 @@ package github.pitbox46.fightnbtintegration;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import github.pitbox46.fightnbtintegration.mixins.ProviderItemMixin;
+import github.pitbox46.fightnbtintegration.mixins.WeaponCapabilityPresetsMixin;
 import github.pitbox46.fightnbtintegration.network.SSyncConfig;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
@@ -12,12 +12,12 @@ import net.minecraftforge.fml.loading.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import yesman.epicfight.world.capabilities.item.CapabilityItem;
+import yesman.epicfight.world.capabilities.item.WeaponCapabilityPresets;
 
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 
@@ -25,12 +25,12 @@ import java.util.Objects;
 public class Config {
     private static final Logger LOGGER = LogManager.getLogger();
 
-    public static final Map<String, CapabilityItem> DICTIONARY = new HashMap<>();
-    static {
-        for(CapabilityItem itemCap : ProviderItemMixin.getCAPABILITIES().values()) {
-            DICTIONARY.put(((CapabilityItem.WeaponCategories) itemCap.getWeaponCategory()).name().toLowerCase(Locale.ROOT), itemCap);
-        }
-    }
+//    public static final Map<String, CapabilityItem> DICTIONARY = new HashMap<>();
+//    static {
+//        for(CapabilityItem itemCap : WeaponCapabilityPresetsMixin.getPRESETS()) {
+//            DICTIONARY.put(((CapabilityItem.WeaponCategories) itemCap.getWeaponCategory()).name().toLowerCase(Locale.ROOT), itemCap);
+//        }
+//    }
 
     public static File jsonFile;
     public static Map<String, Map<String, WeaponSchema>> JSON_MAP = new HashMap<>();
@@ -96,11 +96,13 @@ public class Config {
                         for (Map.Entry<String, WeaponSchema> weaponEntry : condition.getValue().entrySet()) {
                             if (weaponEntry.getKey().equals(value)) {
                                 WeaponSchema weapon = weaponEntry.getValue();
-                                CapabilityItem toReturn = DICTIONARY.getOrDefault(weapon.weapon_type, CapabilityItem.EMPTY);
-                                toReturn.setConfigFileAttribute(
-                                        weapon.armor_ignorance, weapon.impact, weapon.hit_at_once,
-                                        weapon.armor_ignorance, weapon.impact, weapon.hit_at_once);
-                                return toReturn;
+                                if (WeaponCapabilityPresetsMixin.getPRESETS().containsKey(weapon.weapon_type)) {
+                                    CapabilityItem toReturn = WeaponCapabilityPresetsMixin.getPRESETS().getOrDefault(weapon.weapon_type, WeaponCapabilityPresets.SWORD).apply(stack.getItem()).build();
+                                    toReturn.setConfigFileAttribute(
+                                            weapon.armor_ignorance, weapon.impact, weapon.hit_at_once,
+                                            weapon.armor_ignorance, weapon.impact, weapon.hit_at_once);
+                                    return toReturn;
+                                }
                             }
                         }
                     }
