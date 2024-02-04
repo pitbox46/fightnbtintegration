@@ -2,13 +2,13 @@ package github.pitbox46.fightnbtintegration;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import github.pitbox46.fightnbtintegration.mixins.WeaponCapabilityPresetsMixin;
+import github.pitbox46.fightnbtintegration.mixins.WeaponTypeReloadListenerMixin;
 import github.pitbox46.fightnbtintegration.network.SSyncConfig;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.fml.loading.FMLConfig;
 import net.minecraftforge.fml.loading.FMLPaths;
-import net.minecraftforge.fml.loading.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import yesman.epicfight.world.capabilities.item.CapabilityItem;
@@ -29,7 +29,7 @@ public class Config {
     public static Map<String, Map<String, WeaponSchema>> JSON_MAP = new HashMap<>();
 
     public static void init(Path folder) {
-        jsonFile = new File(FileUtils.getOrCreateDirectory(folder, "serverconfig").toFile(), "epicfightnbt.json");
+        jsonFile = new File(getOrCreateDirectory(folder).toFile(), "epicfightnbt.json");
         try {
             if (jsonFile.createNewFile()) {
                 Path defaultConfigPath = FMLPaths.GAMEDIR.get().resolve(FMLConfig.defaultConfigPath()).resolve("epicfightnbt.json");
@@ -48,6 +48,19 @@ public class Config {
         }
 
         readConfig(jsonFile);
+    }
+
+    public static Path getOrCreateDirectory(Path path) {
+        try {
+            if (Files.exists(path)) {
+                return path;
+            } else {
+                return Files.createDirectory(path);
+            }
+        }
+        catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static SSyncConfig configFileToSSyncConfig() {
@@ -89,8 +102,11 @@ public class Config {
                         for (Map.Entry<String, WeaponSchema> weaponEntry : condition.getValue().entrySet()) {
                             if (weaponEntry.getKey().equals(value)) {
                                 WeaponSchema weapon = weaponEntry.getValue();
-                                if (WeaponCapabilityPresetsMixin.getPRESETS().containsKey(weapon.weapon_type)) {
-                                    CapabilityItem toReturn = WeaponCapabilityPresetsMixin.getPRESETS().getOrDefault(weapon.weapon_type, WeaponCapabilityPresets.SWORD).apply(stack.getItem()).build();
+                                ResourceLocation weaponType = weapon.weapon_type.contains(":") ?
+                                        new ResourceLocation(weapon.weapon_type) :
+                                        new ResourceLocation("epicfight", weapon.weapon_type);
+                                if (WeaponTypeReloadListenerMixin.getPRESETS().containsKey(weaponType)) {
+                                    CapabilityItem toReturn = WeaponTypeReloadListenerMixin.getPRESETS().getOrDefault(weaponType, WeaponCapabilityPresets.SWORD).apply(stack.getItem()).build();
                                     toReturn.setConfigFileAttribute(
                                             weapon.armor_ignorance, weapon.impact, weapon.hit_at_once,
                                             weapon.armor_ignorance, weapon.impact, weapon.hit_at_once);

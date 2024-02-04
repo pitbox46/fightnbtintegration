@@ -156,10 +156,10 @@ dependencies {
 
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 
-    implementation fg.deobf("curse.maven:epicfightmod-405076:5049481")
+    implementation fg.deobf("curse.maven:epicfightmod-405076:5064418")
 
-    runtimeOnly fg.deobf("curse.maven:tetra-289712:4746630")
-    runtimeOnly fg.deobf("curse.maven:mutil-351914:4941248")
+    runtimeOnly fg.deobf("curse.maven:tetra-289712:4857842")
+    runtimeOnly fg.deobf("curse.maven:mutil-351914:4824501")
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.
