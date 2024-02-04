@@ -13,7 +13,7 @@ import java.util.function.Function;
 public interface WeaponCapabilityPresetsMixin {
 
     @Accessor
-    public static Map<String, Function<Item, CapabilityItem.Builder>> getPRESETS() {
+    static Map<String, Function<Item, CapabilityItem.Builder>> getPRESETS() {
         throw new RuntimeException();
     }
 }

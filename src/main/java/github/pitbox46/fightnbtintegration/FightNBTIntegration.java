@@ -32,8 +32,8 @@ public class FightNBTIntegration {
 
     @SubscribeEvent
     public void onPlayerConnect(PlayerEvent.PlayerLoggedInEvent event) {
-        if(event.getPlayer() instanceof ServerPlayer) {
-            PacketHandler.CHANNEL.send(PacketDistributor.PLAYER.with(() -> (ServerPlayer) event.getPlayer()), Config.configFileToSSyncConfig());
+        if(event.getEntity() instanceof ServerPlayer) {
+            PacketHandler.CHANNEL.send(PacketDistributor.PLAYER.with(() -> (ServerPlayer) event.getEntity()), Config.configFileToSSyncConfig());
         }
     }
 }
