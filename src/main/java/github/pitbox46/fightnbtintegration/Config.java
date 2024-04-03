@@ -85,7 +85,7 @@ public class Config {
         }
     }
 
-    static class WeaponSchema {
+    public static class WeaponSchema {
         public double armor_ignorance = 0;
         public int hit_at_once = 0;
         public double impact = 0;
