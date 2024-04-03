@@ -96,25 +96,23 @@ public class Config {
         if(stack.hasTag()) {
             CompoundTag tag = stack.getTag();
             for (String key : tag.getAllKeys()) {
-                for (Map.Entry<String, Map<String, WeaponSchema>> condition : JSON_MAP.entrySet()) {
-                    if (condition.getKey().equals(key)) {
-                        String value = tag.getString(key);
-                        for (Map.Entry<String, WeaponSchema> weaponEntry : condition.getValue().entrySet()) {
-                            if (weaponEntry.getKey().equals(value)) {
-                                WeaponSchema weapon = weaponEntry.getValue();
-                                ResourceLocation weaponType = weapon.weapon_type.contains(":") ?
-                                        new ResourceLocation(weapon.weapon_type) :
-                                        new ResourceLocation("epicfight", weapon.weapon_type);
-                                if (WeaponTypeReloadListenerMixin.getPRESETS().containsKey(weaponType)) {
-                                    CapabilityItem toReturn = WeaponTypeReloadListenerMixin.getPRESETS().getOrDefault(weaponType, WeaponCapabilityPresets.SWORD).apply(stack.getItem()).build();
-                                    toReturn.setConfigFileAttribute(
-                                            weapon.armor_ignorance, weapon.impact, weapon.hit_at_once,
-                                            weapon.armor_ignorance, weapon.impact, weapon.hit_at_once);
-                                    return toReturn;
-                                }
-                            }
-                        }
-                    }
+                Map<String, WeaponSchema> valueMap = JSON_MAP.get(key);
+                if (valueMap == null) {
+                    continue;
+                }
+                WeaponSchema schema = valueMap.get(tag.getString(key));
+                if (schema == null) {
+                    continue;
+                }
+                ResourceLocation weaponType = schema.weapon_type.contains(":") ?
+                        new ResourceLocation(schema.weapon_type) :
+                        new ResourceLocation("epicfight", schema.weapon_type);
+                if (WeaponTypeReloadListenerMixin.getPRESETS().containsKey(weaponType)) {
+                    CapabilityItem toReturn = WeaponTypeReloadListenerMixin.getPRESETS().getOrDefault(weaponType, WeaponCapabilityPresets.SWORD).apply(stack.getItem()).build();
+                    toReturn.setConfigFileAttribute(
+                            schema.armor_ignorance, schema.impact, schema.hit_at_once,
+                            schema.armor_ignorance, schema.impact, schema.hit_at_once);
+                    return toReturn;
                 }
             }
         }
