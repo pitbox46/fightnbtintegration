@@ -26,7 +26,7 @@ public class Config {
     private static final Logger LOGGER = LogManager.getLogger();
 
     public static File jsonFile;
-    public static Map<String, Map<String, WeaponSchema>> JSON_MAP = new HashMap<>();
+    public static Map<String, WeaponSchema> JSON_MAP = new HashMap<>();
 
     public static void init(Path folder) {
         jsonFile = new File(getOrCreateDirectory(folder).toFile(), "epicfightnbt.json");
@@ -73,16 +73,31 @@ public class Config {
     }
 
     public static void readConfig(String config) {
-        JSON_MAP = new Gson().fromJson(config, new TypeToken<Map<String, Map<String, WeaponSchema>>>(){}.getType());
+        JSON_MAP = flattenMap(new Gson().fromJson(config, new TypeToken<Map<String, Map<String, WeaponSchema>>>(){}.getType()));
     }
 
     public static void readConfig(File path) {
         try (Reader reader = new FileReader(path)) {
-            JSON_MAP = new Gson().fromJson(reader, new TypeToken<Map<String, Map<String, WeaponSchema>>>(){}.getType());
+            JSON_MAP = flattenMap(new Gson().fromJson(reader, new TypeToken<Map<String, Map<String, WeaponSchema>>>(){}.getType()));
         } catch (IOException e) {
             e.printStackTrace();
             JSON_MAP = new HashMap<>();
         }
+    }
+
+    /**
+     * Flattens a map for performance reasons
+     * @param map A map of maps
+     * @return A new map where keys are the concatenation of the top and bottom key
+     */
+    protected static Map<String, WeaponSchema> flattenMap(Map<String, Map<String, WeaponSchema>> map) {
+        Map<String, WeaponSchema> flatMap = new HashMap<>();
+        map.forEach((topKey, bottomMap) -> {
+            bottomMap.forEach((bottomKey, schema) -> {
+                flatMap.put(topKey + bottomKey, schema);
+            });
+        });
+        return flatMap;
     }
 
     public static class WeaponSchema {
@@ -96,11 +111,8 @@ public class Config {
         if(stack.hasTag()) {
             CompoundTag tag = stack.getTag();
             for (String key : tag.getAllKeys()) {
-                Map<String, WeaponSchema> valueMap = JSON_MAP.get(key);
-                if (valueMap == null) {
-                    continue;
-                }
-                WeaponSchema schema = valueMap.get(tag.getString(key));
+                key = key + tag.getString(key);
+                WeaponSchema schema = JSON_MAP.get(key);
                 if (schema == null) {
                     continue;
                 }
