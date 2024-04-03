@@ -123,3 +123,4 @@ bin/main/pack.mcmeta
 .project
 .classpath
 bin/main/META-INF/mods.toml
+/gradle/
