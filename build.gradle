@@ -156,7 +156,7 @@ dependencies {
 
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 
-    implementation fg.deobf("curse.maven:epicfightmod-405076:5064418")
+    implementation fg.deobf("curse.maven:epicfightmod-405076:5618905")
 
     runtimeOnly fg.deobf("curse.maven:tetra-289712:4857842")
     runtimeOnly fg.deobf("curse.maven:mutil-351914:4824501")
