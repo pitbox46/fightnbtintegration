@@ -26,7 +26,7 @@ public class Config {
     private static final Logger LOGGER = LogManager.getLogger();
 
     public static File jsonFile;
-    public static Map<String, Map<String, WeaponSchema>> JSON_MAP = new HashMap<>();
+    public static Map<String, WeaponSchema> JSON_MAP = new HashMap<>();
 
     public static void init(Path folder) {
         jsonFile = new File(getOrCreateDirectory(folder).toFile(), "epicfightnbt.json");
@@ -73,19 +73,34 @@ public class Config {
     }
 
     public static void readConfig(String config) {
-        JSON_MAP = new Gson().fromJson(config, new TypeToken<Map<String, Map<String, WeaponSchema>>>(){}.getType());
+        JSON_MAP = flattenMap(new Gson().fromJson(config, new TypeToken<Map<String, Map<String, WeaponSchema>>>(){}.getType()));
     }
 
     public static void readConfig(File path) {
         try (Reader reader = new FileReader(path)) {
-            JSON_MAP = new Gson().fromJson(reader, new TypeToken<Map<String, Map<String, WeaponSchema>>>(){}.getType());
+            JSON_MAP = flattenMap(new Gson().fromJson(reader, new TypeToken<Map<String, Map<String, WeaponSchema>>>(){}.getType()));
         } catch (IOException e) {
             e.printStackTrace();
             JSON_MAP = new HashMap<>();
         }
     }
 
-    static class WeaponSchema {
+    /**
+     * Flattens a map for performance reasons
+     * @param map A map of maps
+     * @return A new map where keys are the concatenation of the top and bottom key
+     */
+    protected static Map<String, WeaponSchema> flattenMap(Map<String, Map<String, WeaponSchema>> map) {
+        Map<String, WeaponSchema> flatMap = new HashMap<>();
+        map.forEach((topKey, bottomMap) -> {
+            bottomMap.forEach((bottomKey, schema) -> {
+                flatMap.put(topKey + bottomKey, schema);
+            });
+        });
+        return flatMap;
+    }
+
+    public static class WeaponSchema {
         public double armor_ignorance = 0;
         public int hit_at_once = 0;
         public double impact = 0;
@@ -96,25 +111,20 @@ public class Config {
         if(stack.hasTag()) {
             CompoundTag tag = stack.getTag();
             for (String key : tag.getAllKeys()) {
-                for (Map.Entry<String, Map<String, WeaponSchema>> condition : JSON_MAP.entrySet()) {
-                    if (condition.getKey().equals(key)) {
-                        String value = tag.getString(key);
-                        for (Map.Entry<String, WeaponSchema> weaponEntry : condition.getValue().entrySet()) {
-                            if (weaponEntry.getKey().equals(value)) {
-                                WeaponSchema weapon = weaponEntry.getValue();
-                                ResourceLocation weaponType = weapon.weapon_type.contains(":") ?
-                                        new ResourceLocation(weapon.weapon_type) :
-                                        new ResourceLocation("epicfight", weapon.weapon_type);
-                                if (WeaponTypeReloadListenerMixin.getPRESETS().containsKey(weaponType)) {
-                                    CapabilityItem toReturn = WeaponTypeReloadListenerMixin.getPRESETS().getOrDefault(weaponType, WeaponCapabilityPresets.SWORD).apply(stack.getItem()).build();
-                                    toReturn.setConfigFileAttribute(
-                                            weapon.armor_ignorance, weapon.impact, weapon.hit_at_once,
-                                            weapon.armor_ignorance, weapon.impact, weapon.hit_at_once);
-                                    return toReturn;
-                                }
-                            }
-                        }
-                    }
+                key = key + tag.getString(key);
+                WeaponSchema schema = JSON_MAP.get(key);
+                if (schema == null) {
+                    continue;
+                }
+                ResourceLocation weaponType = schema.weapon_type.contains(":") ?
+                        new ResourceLocation(schema.weapon_type) :
+                        new ResourceLocation("epicfight", schema.weapon_type);
+                if (WeaponTypeReloadListenerMixin.getPRESETS().containsKey(weaponType)) {
+                    CapabilityItem toReturn = WeaponTypeReloadListenerMixin.getPRESETS().getOrDefault(weaponType, WeaponCapabilityPresets.SWORD).apply(stack.getItem()).build();
+                    toReturn.setConfigFileAttribute(
+                            schema.armor_ignorance, schema.impact, schema.hit_at_once,
+                            schema.armor_ignorance, schema.impact, schema.hit_at_once);
+                    return toReturn;
                 }
             }
         }
