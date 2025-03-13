@@ -1,5 +1,6 @@
 package github.pitbox46.fightnbtintegration;
 
+import com.mojang.datafixers.util.Pair;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import github.pitbox46.fightnbtintegration.mixins.WeaponTypeReloadListenerMixin;
@@ -13,6 +14,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import yesman.epicfight.world.capabilities.item.CapabilityItem;
 import yesman.epicfight.world.capabilities.item.WeaponCapabilityPresets;
+import yesman.epicfight.world.entity.ai.attribute.EpicFightAttributes;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -120,11 +122,20 @@ public class Config {
                         new ResourceLocation(schema.weapon_type) :
                         new ResourceLocation("epicfight", schema.weapon_type);
                 if (WeaponTypeReloadListenerMixin.getPRESETS().containsKey(weaponType)) {
-                    CapabilityItem toReturn = WeaponTypeReloadListenerMixin.getPRESETS().getOrDefault(weaponType, WeaponCapabilityPresets.SWORD).apply(stack.getItem()).build();
-                    toReturn.setConfigFileAttribute(
-                            schema.armor_ignorance, schema.impact, schema.hit_at_once,
-                            schema.armor_ignorance, schema.impact, schema.hit_at_once);
-                    return toReturn;
+                    CapabilityItem.Builder toReturn = WeaponTypeReloadListenerMixin.getPRESETS().getOrDefault(weaponType, WeaponCapabilityPresets.SWORD).apply(stack.getItem());
+                    if (Double.compare(schema.armor_ignorance, 0.0D) != 0) {
+                        toReturn.addStyleAttibutes(CapabilityItem.Styles.ONE_HAND, Pair.of(EpicFightAttributes.ARMOR_NEGATION.get(), EpicFightAttributes.getArmorNegationModifier(schema.armor_ignorance)));
+                        toReturn.addStyleAttibutes(CapabilityItem.Styles.TWO_HAND, Pair.of(EpicFightAttributes.ARMOR_NEGATION.get(), EpicFightAttributes.getArmorNegationModifier(schema.armor_ignorance)));
+                    }
+                    if (Double.compare(schema.impact, 0.0D) != 0) {
+                        toReturn.addStyleAttibutes(CapabilityItem.Styles.ONE_HAND, Pair.of(EpicFightAttributes.IMPACT.get(), EpicFightAttributes.getImpactModifier(schema.impact)));
+                        toReturn.addStyleAttibutes(CapabilityItem.Styles.TWO_HAND, Pair.of(EpicFightAttributes.IMPACT.get(), EpicFightAttributes.getImpactModifier(schema.impact)));
+                    }
+                    if (schema.hit_at_once != 0) {
+                        toReturn.addStyleAttibutes(CapabilityItem.Styles.ONE_HAND, Pair.of(EpicFightAttributes.MAX_STRIKES.get(), EpicFightAttributes.getMaxStrikesModifier(schema.hit_at_once)));
+                        toReturn.addStyleAttibutes(CapabilityItem.Styles.TWO_HAND, Pair.of(EpicFightAttributes.MAX_STRIKES.get(), EpicFightAttributes.getMaxStrikesModifier(schema.hit_at_once)));
+                    }
+                    return toReturn.build();
                 }
             }
         }
